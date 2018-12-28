@@ -17,6 +17,10 @@ import com.eventoWS.model.Evento;
 import com.eventoWS.repository.ConvidadoRepository;
 import com.eventoWS.repository.EventoRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="API REST do eventoWS")
 @RestController
 @RequestMapping("/eventoWS")
 public class EventoController {
@@ -29,6 +33,7 @@ public class EventoController {
 	
 	//Define método Get de request e Json de resposta
 	//@ResponseBody indica que a resposta virá no corpo.
+	@ApiOperation(value="Retorna a lista de todos os eventos")
 	@GetMapping(produces="application/json")
 	public @ResponseBody Iterable<Evento> listaEventos() {
 		Iterable<Evento> listaEventos = er.findAll();
@@ -36,6 +41,7 @@ public class EventoController {
 	}
 	
 	
+	@ApiOperation(value="Retorna um evento pelo seu código")
 	@GetMapping(value="/buscaEvento/{codigo}", produces="application/json")
 	public @ResponseBody Evento buscaEvento(@PathVariable("codigo") long codigo) {
 		Evento evento = er.findByCodigo(codigo);		
@@ -43,6 +49,7 @@ public class EventoController {
 	}
 	
 	
+	@ApiOperation(value="Retorna um convidado por seu RG")
 	@GetMapping(value="/buscaConvidado/{rg}", produces="application/json")
 	public @ResponseBody Convidado buscaConvidado(@PathVariable("rg") String rg) {
 		Convidado convidado = cr.findByRg(rg);	
@@ -50,7 +57,7 @@ public class EventoController {
 	}
 	
 	
-
+	@ApiOperation(value="Retorna a lista de convidados de um determinado evento")
 	@PostMapping(produces="application/json")
 	public @ResponseBody Iterable<Convidado> listaConvidados(@RequestBody @Valid Evento evento) {		
 		Iterable<Convidado> listaConvidados = cr.findByEvento(evento);
@@ -58,7 +65,7 @@ public class EventoController {
 	}
 	
 	
-	
+	@ApiOperation(value="Cadastra um convidado a partir de um código de evento")
 	@PostMapping("/cadastraConvidado/{codigoEvento}")
 	public void cadastraConvidado(@PathVariable("codigoEvento") long codigoEvento, @RequestBody @Valid Convidado convidado) {
 		Evento evento = er.findByCodigo(codigoEvento);
@@ -67,15 +74,16 @@ public class EventoController {
 	}
 	
 	
-
 	//Metodo de cadastramento de evento via POST
 	//@RequestBody indica que Evento virá no corpo da Requisição
+	@ApiOperation(value="Cadastra um evento via POST")
 	@PostMapping("/cadastraEvento")
 	public void cadastraEvento(@RequestBody @Valid Evento evento) {
 		er.save(evento);
 	}
 	
 	
+	@ApiOperation(value="Exclui um evento por seu código")
 	@DeleteMapping("/deletaEvento/{codigo}")
 	public void deletaEvento(@PathVariable("codigo") long codigo) {
 		Evento evento = er.findByCodigo(codigo);
@@ -83,6 +91,7 @@ public class EventoController {
 	}
 	
 
+	@ApiOperation(value="Exclui um convidado por seu RG")
 	@DeleteMapping("/deletaConvidado/{rg}")
 	public void deletaConvidado(@PathVariable("rg") String rg) {
 		Convidado convidado = cr.findByRg(rg);

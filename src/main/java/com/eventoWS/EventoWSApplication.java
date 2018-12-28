@@ -18,6 +18,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  
  */
 
+// TESTAR API SWAGGER: http://localhost:8080/swagger-ui.html
+
 
 @SpringBootApplication
 public class EventoWSApplication {
