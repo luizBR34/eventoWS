@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eventoWS.model.Usuario;
 import com.eventoWS.model.Convidado;
 import com.eventoWS.model.Evento;
+import com.eventoWS.repository.UsuarioRepository;
 import com.eventoWS.repository.ConvidadoRepository;
 import com.eventoWS.repository.EventoRepository;
 
@@ -30,6 +32,9 @@ public class EventoController {
 	
 	@Autowired
 	private ConvidadoRepository cr;
+	
+	@Autowired
+	private UsuarioRepository ur;
 	
 	//Define método Get de request e Json de resposta
 	//@ResponseBody indica que a resposta virá no corpo.
@@ -54,6 +59,14 @@ public class EventoController {
 	public @ResponseBody Convidado buscaConvidado(@PathVariable("rg") String rg) {
 		Convidado convidado = cr.findByRg(rg);	
 		return convidado;
+	}
+	
+	
+	@ApiOperation(value="Retorna um usuário")
+	@GetMapping(value="/buscaUsuario/{login}", produces="application/json")
+	public @ResponseBody Usuario buscaUsuario(@PathVariable("login") String login) {
+		Usuario usuario = ur.findByLogin(login);
+		return usuario;
 	}
 	
 	
@@ -92,9 +105,12 @@ public class EventoController {
 	
 
 	@ApiOperation(value="Exclui um convidado por seu RG")
-	@DeleteMapping("/deletaConvidado/{rg}")
-	public void deletaConvidado(@PathVariable("rg") String rg) {
+	@DeleteMapping(value="/deletaConvidado/{rg}", produces="application/json")
+	public @ResponseBody Evento deletaConvidado(@PathVariable("rg") String rg) {
 		Convidado convidado = cr.findByRg(rg);
 		cr.delete(convidado);
+		
+		Evento evento = convidado.getEvento();
+		return evento;
 	}
 }

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -30,13 +31,10 @@ public class Usuario implements Serializable {
 	@NotBlank
 	@Column(name = "senha")
 	private String senha;
-
-	@Column(name="roles")
-	@ManyToMany
-	@JoinTable(name = "usuarios_roles", 
-			   joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "login"), 
-			   inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "nomeRole")) 
-    private List<Role> roles;
+	
+	//Muitos Usuario para um papel (função)
+	@ManyToOne
+	private Role role;
 	
 	
 	public String getLogin() {
@@ -62,14 +60,14 @@ public class Usuario implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
 
-	public List<Role> getRoles() {
-		return roles;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setRole(Role role) {
+		this.role = role;
 	}
+
 
 }
