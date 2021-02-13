@@ -3,10 +3,10 @@ package com.eventoWS.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.eventoWS.model.Usuario;
+import com.eventoWS.model.User;
 
 @Repository
-public interface UsuarioRepository extends CrudRepository<Usuario, String> {
+public interface UserRepository extends CrudRepository<User, String> {
 
-	Usuario findByLogin(String login);
+	User findByUserName(String username);
 }

@@ -3,11 +3,11 @@ package com.eventoWS.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.eventoWS.model.Evento;
+import com.eventoWS.model.Event;
 
 @Repository
-public interface EventoRepository extends CrudRepository<Evento, String> {
+public interface EventRepository extends CrudRepository<Event, Long> {
 	
-	Evento findByCodigo(long codigo);
+	Event findByCode(long code);
 	
 }
