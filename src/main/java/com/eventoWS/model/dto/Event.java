@@ -3,7 +3,6 @@ package com.eventoWS.model.dto;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +30,4 @@ public class Event implements Serializable {
 	private Date date;
 
 	private Time time;
-
-	private List<Guest> guests;
 }

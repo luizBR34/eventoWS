@@ -1,7 +1,6 @@
 package com.eventoWS.model.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +22,4 @@ public class Role implements Serializable {
 	private Long id;
 
 	private String name;
-	
-	private List<User> users;
-
 }
