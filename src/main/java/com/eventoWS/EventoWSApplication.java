@@ -18,7 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  
  */
 
-// TESTAR API SWAGGER: http://localhost:8080/swagger-ui.html
+// TESTAR API SWAGGER: http://localhost:9090/swagger-ui.html
 
 
 @SpringBootApplication

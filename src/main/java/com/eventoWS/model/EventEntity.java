@@ -1,6 +1,5 @@
 package com.eventoWS.model;
 
-import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
@@ -12,31 +11,23 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.GenericGenerator;
-
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+@Builder
 @Entity
 @Table(name = "event")
 @Getter
 @Setter
-@ToString
-public class Event implements Serializable {
+public class EventEntity {
 	
-	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    //@GenericGenerator(name = "native", strategy = "native")
 	@Column(name = "code")
 	private long code;
 	
@@ -60,5 +51,5 @@ public class Event implements Serializable {
 	@OneToMany(fetch=FetchType.LAZY,
 	   mappedBy="event", 
 	   cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-	private List<Guest> guests;
+	private List<GuestEntity> guests;
 }
