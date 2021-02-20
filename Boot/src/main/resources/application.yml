@@ -1,0 +1,21 @@
+server:
+    port: 9090
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/eventoApp?useTimezone=true&serverTimezone=UTC
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: hadouken83
+        validationQuery: SELECT 1
+        testWhileIdle: true
+    jpa:
+        hibernate:
+            ddl-auto: update
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5Dialect
+        show-sql: true
+        generate-ddl: true
+    profiles:
+        active: dev
