@@ -31,5 +31,5 @@ public class Event implements Serializable {
 
 	private Date date;
 
-	private Time time;
+	private Date time;
 }

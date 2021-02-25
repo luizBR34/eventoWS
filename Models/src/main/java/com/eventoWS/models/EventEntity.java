@@ -1,6 +1,5 @@
 package com.eventoWS.models;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Builder;
@@ -41,11 +42,13 @@ public class EventEntity {
 	
 	@NotBlank
 	@Column(name = "date")
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	
 	@NotBlank
 	@Column(name = "time")
-	private Time time;
+	@Temporal(TemporalType.TIME)
+	private Date time;
 	
 	//Um evento para muitos convidados
 	@OneToMany(fetch=FetchType.LAZY,
