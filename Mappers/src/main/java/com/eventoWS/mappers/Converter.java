@@ -1,15 +1,17 @@
 package com.eventoWS.mappers;
 
+import java.text.ParseException;
 import java.util.stream.Collectors;
 
-import com.eventoWS.models.EventEntity;
-import com.eventoWS.models.GuestEntity;
-import com.eventoWS.models.RoleEntity;
-import com.eventoWS.models.UserEntity;
-import com.eventoWS.models.dto.Event;
-import com.eventoWS.models.dto.Guest;
-import com.eventoWS.models.dto.Role;
-import com.eventoWS.models.dto.User;
+import com.eventoApp.mappers.utils.DateUtils;
+import com.eventoApp.models.Event;
+import com.eventoApp.models.Guest;
+import com.eventoApp.models.Role;
+import com.eventoApp.models.User;
+import com.eventoWS.persistence.entity.EventEntity;
+import com.eventoWS.persistence.entity.GuestEntity;
+import com.eventoWS.persistence.entity.RoleEntity;
+import com.eventoWS.persistence.entity.UserEntity;
 
 public class Converter {
 
@@ -21,8 +23,8 @@ public class Converter {
 					.code(((EventEntity) t).getCode())
 					.name(((EventEntity) t).getName())
 					.city(((EventEntity) t).getCity())
-					.date(((EventEntity) t).getDate())
-					.time(((EventEntity) t).getTime()).build();
+					.date(DateUtils.formatDate(((EventEntity) t).getDate()))
+					.time(DateUtils.formatDate(((EventEntity) t).getTime())).build();
 
 		} else if (t instanceof GuestEntity) {
 
@@ -57,7 +59,7 @@ public class Converter {
 		return null;
 	}
 
-	public static <T> Object convertDTOToEntity(T t) {
+	public static <T> Object convertDTOToEntity(T t) throws ParseException {
 
 		if (t instanceof Event) {
 
@@ -65,8 +67,8 @@ public class Converter {
 					.code(((Event) t).getCode())
 					.name(((Event) t).getName())
 					.city(((Event) t).getCity())
-					.date(((Event) t).getDate())
-					.time(((Event) t).getTime()).build();
+					.date(DateUtils.parseDate(((Event) t).getDate()))
+					.time(DateUtils.parseDate(((Event) t).getTime())).build();
 
 		} else if (t instanceof Guest) {
 

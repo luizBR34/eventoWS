@@ -18,8 +18,20 @@
 	
 	<!-- MODULES DENPENDENCY START -->
         <dependency>
-            <groupId>com.eventoWS.models</groupId>
+            <groupId>com.eventoApp.models</groupId>
             <artifactId>models</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.eventoApp.mappers</groupId>
+            <artifactId>mappers</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.eventoWS.persistence</groupId>
+            <artifactId>persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
 		

@@ -25,7 +25,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<type>pom</type>
-				<version>2.2.6.RELEASE</version>
+				<!-- <version>2.2.6.RELEASE</version> -->
+				<version>2.3.2.RELEASE</version>
 				<scope>import</scope>
 			</dependency>
 
@@ -44,11 +45,6 @@
 				<artifactId>mappers</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>models</artifactId>
-				<version>${project.version}</version>
-			</dependency>		
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>persistence</artifactId>
@@ -72,10 +68,8 @@
 		<module>boot</module>
 		<module>configs</module>
 		<module>mappers</module>
-		<module>models</module>
 		<module>persistence</module>
 		<module>services</module>
 		<module>web</module>
 	</modules>
-
 </project>

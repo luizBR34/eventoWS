@@ -28,8 +28,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication()
 @ComponentScan(basePackages = {"com.eventoWS"})
-@EntityScan("com.eventoWS.models")
-@EnableJpaRepositories("com.eventoWS.persistence")
+@EntityScan("com.eventoWS.persistence.entity")
+@EnableJpaRepositories("com.eventoWS.persistence.repository")
 @EnableSwagger2
 public class EventoWSApplication {
 

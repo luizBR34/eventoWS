@@ -16,6 +16,7 @@
 	<dependencies>
 	
 	<!-- MODULES DENPENDENCY START -->
+	
         <dependency>
             <groupId>com.eventoWS.configs</groupId>
             <artifactId>configs</artifactId>

@@ -23,7 +23,7 @@
         </dependency>
 	
         <dependency>
-            <groupId>com.eventoWS.models</groupId>
+            <groupId>com.eventoApp.models</groupId>
             <artifactId>models</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -1,4 +1,4 @@
-package com.eventoWS.models;
+package com.eventoWS.persistence.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

@@ -1,5 +1,6 @@
 package com.eventoWS.services.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eventoWS.mappers.Converter;
-import com.eventoWS.models.GuestEntity;
-import com.eventoWS.models.dto.Event;
-import com.eventoWS.models.dto.Guest;
-import com.eventoWS.models.dto.User;
-import com.eventoWS.persistence.EventRepository;
-import com.eventoWS.persistence.GuestRepository;
-import com.eventoWS.persistence.UserRepository;
+import com.eventoApp.models.Event;
+import com.eventoApp.models.Guest;
+import com.eventoApp.models.User;
+import com.eventoWS.persistence.entity.GuestEntity;
+import com.eventoWS.persistence.repository.EventRepository;
+import com.eventoWS.persistence.repository.GuestRepository;
+import com.eventoWS.persistence.repository.UserRepository;
 import com.eventoWS.services.ClientService;
 
 @Service
@@ -34,9 +35,9 @@ public class DefaultClientService implements ClientService {
 	@Override
 	public List<Event> eventList() {
 		
-		Iterable<com.eventoWS.models.EventEntity> events = er.findAll();
+		Iterable<com.eventoWS.persistence.entity.EventEntity> events = er.findAll();
 
-		List<com.eventoWS.models.EventEntity> eventList = new ArrayList<>();
+		List<com.eventoWS.persistence.entity.EventEntity> eventList = new ArrayList<>();
 		events.forEach(eventList::add);
 
 		return eventList.stream()
@@ -78,10 +79,10 @@ public class DefaultClientService implements ClientService {
 	@Override
 	public List<Guest> guestList(long eventCode) {
 		
-		com.eventoWS.models.EventEntity event = er.findByCode(eventCode);
-		Iterable<com.eventoWS.models.GuestEntity> iterableList = gr.findByEvent(event);
+		com.eventoWS.persistence.entity.EventEntity event = er.findByCode(eventCode);
+		Iterable<com.eventoWS.persistence.entity.GuestEntity> iterableList = gr.findByEvent(event);
 		
-		List<com.eventoWS.models.GuestEntity> guestList = new ArrayList<>();
+		List<com.eventoWS.persistence.entity.GuestEntity> guestList = new ArrayList<>();
 		iterableList.forEach(guestList::add);
 		
 		return guestList.stream()
@@ -90,34 +91,34 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public void saveGuest(long eventCode, Guest guest) {
+	public void saveGuest(long eventCode, Guest guest) throws ParseException {
 		
-		com.eventoWS.models.EventEntity event = er.findByCode(eventCode);
-		com.eventoWS.models.GuestEntity guestEntity = ((com.eventoWS.models.GuestEntity) Converter.convertDTOToEntity(guest));
+		com.eventoWS.persistence.entity.EventEntity event = er.findByCode(eventCode);
+		com.eventoWS.persistence.entity.GuestEntity guestEntity = ((com.eventoWS.persistence.entity.GuestEntity) Converter.convertDTOToEntity(guest));
 		guestEntity.setEvent(event);
 		gr.save(guestEntity);
 	}
 
 	@Override
-	public void saveEvent(Event evento) {
+	public void saveEvent(Event evento) throws ParseException {
 		
-		com.eventoWS.models.EventEntity event = (com.eventoWS.models.EventEntity) Converter.convertDTOToEntity(evento);
+		com.eventoWS.persistence.entity.EventEntity event = (com.eventoWS.persistence.entity.EventEntity) Converter.convertDTOToEntity(evento);
 		er.save(event);
 	}
 
 	@Override
 	public void deleteEvent(long code) {
-		com.eventoWS.models.EventEntity event = er.findByCode(code);
+		com.eventoWS.persistence.entity.EventEntity event = er.findByCode(code);
 		er.delete(event);
 	}
 
 	@Override
 	public Event deleteGuest(long id) {
 		
-		com.eventoWS.models.GuestEntity guest = gr.findById(id);
+		com.eventoWS.persistence.entity.GuestEntity guest = gr.findById(id);
 		gr.delete(guest);
 		
-		com.eventoWS.models.EventEntity event = guest.getEvent();
+		com.eventoWS.persistence.entity.EventEntity event = guest.getEvent();
 		return (Event) Converter.convertEntityToDTO(event);
 	}
 

@@ -1,5 +1,6 @@
 package com.eventoWS.web;
 
+import java.text.ParseException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eventoWS.models.dto.Event;
-import com.eventoWS.models.dto.Guest;
-import com.eventoWS.models.dto.User;
+import com.eventoApp.models.Event;
+import com.eventoApp.models.Guest;
+import com.eventoApp.models.User;
 import com.eventoWS.services.ClientService;
 
 import io.swagger.annotations.Api;
@@ -76,7 +77,12 @@ public class EventoWSController {
 	@PostMapping("/saveGuest/{eventCode}")
 	public void saveGuest(@PathVariable("eventCode") long eventCode, @RequestBody @Valid Guest guest) {
 		
-		service.saveGuest(eventCode, guest);
+		try {
+			service.saveGuest(eventCode, guest);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -86,7 +92,12 @@ public class EventoWSController {
 	@PostMapping("/saveEvent")
 	public void saveEvent(@RequestBody @Valid Event event) {
 		
-		service.saveEvent(event);
+		try {
+			service.saveEvent(event);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

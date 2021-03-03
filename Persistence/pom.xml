@@ -16,15 +16,17 @@
 
 	<dependencies>
 	<!-- MODULES DENPENDENCY START -->
-        <dependency>
-            <groupId>com.eventoWS.models</groupId>
-            <artifactId>models</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
 	<!-- MODULES DENPENDENCY END -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>

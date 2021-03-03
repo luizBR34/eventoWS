@@ -1,10 +1,10 @@
-package com.eventoWS.persistence;
+package com.eventoWS.persistence.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.eventoWS.models.GuestEntity;
-import com.eventoWS.models.EventEntity;
+import com.eventoWS.persistence.entity.EventEntity;
+import com.eventoWS.persistence.entity.GuestEntity;
 
 @Repository
 public interface GuestRepository extends CrudRepository<GuestEntity, Long> {

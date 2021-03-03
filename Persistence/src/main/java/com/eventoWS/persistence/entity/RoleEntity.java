@@ -1,4 +1,4 @@
-package com.eventoWS.models;
+package com.eventoWS.persistence.entity;
 
 import java.util.List;
 
