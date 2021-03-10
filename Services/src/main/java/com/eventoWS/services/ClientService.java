@@ -1,6 +1,5 @@
 package com.eventoWS.services;
 
-import java.text.ParseException;
 import java.util.List;
 
 import com.eventoApp.models.Event;
@@ -21,9 +20,9 @@ public interface ClientService {
 	
 	public List<Guest> guestList(long eventCode);
 	
-	public void saveGuest(long eventCode, Guest guest) throws ParseException;
+	public void saveGuest(long eventCode, Guest guest);
 	
-	public void saveEvent(Event evento) throws ParseException;
+	public void saveEvent(Event evento);
 	
 	public void deleteEvent(long code);
 	

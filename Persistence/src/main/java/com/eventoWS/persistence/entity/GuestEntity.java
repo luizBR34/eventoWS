@@ -11,13 +11,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Builder
 @Entity
 @Table(name = "guest")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class GuestEntity {

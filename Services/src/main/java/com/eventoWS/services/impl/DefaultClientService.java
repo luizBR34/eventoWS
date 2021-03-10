@@ -1,5 +1,7 @@
 package com.eventoWS.services.impl;
 
+import static java.util.Objects.isNull;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +10,17 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eventoWS.mappers.Converter;
 import com.eventoApp.models.Event;
 import com.eventoApp.models.Guest;
 import com.eventoApp.models.User;
-import com.eventoWS.persistence.entity.GuestEntity;
+import com.eventoWS.mappers.Converter;
 import com.eventoWS.persistence.repository.EventRepository;
 import com.eventoWS.persistence.repository.GuestRepository;
 import com.eventoWS.persistence.repository.UserRepository;
 import com.eventoWS.services.ClientService;
+import com.eventoWS.services.error.EventNotFoundException;
+import com.eventoWS.services.error.GuestNotFoundException;
+import com.eventoWS.services.error.ParserEntityException;
 
 @Service
 public class DefaultClientService implements ClientService {
@@ -41,14 +45,27 @@ public class DefaultClientService implements ClientService {
 		events.forEach(eventList::add);
 
 		return eventList.stream()
-					    .map(e -> (Event) Converter.convertEntityToDTO(e))
+					    .map(e -> (Event) convertEntityToDTO(e))
 					    .collect(Collectors.toList());
 	}
+	
 
 	@Override
 	public Event seekEvent(long code) {
+
+		Event event = null;
 		
-		Event event = (Event) Converter.convertEntityToDTO(er.findByCode(code));	
+		try {
+			event = (Event) Converter.convertEntityToDTO(er.findByCode(code));
+		} catch (ParseException e) {
+			throw new ParserEntityException(e.getMessage(), e.getErrorOffset());
+		}
+		
+		
+		if (isNull(event)) {
+			throw new EventNotFoundException("Event could not be found: " + code);
+		}
+
 		return event;
 	}
 	
@@ -56,8 +73,20 @@ public class DefaultClientService implements ClientService {
 	@Override
 	public Guest seekGuest(long id) {
 		
-		GuestEntity guestEntity = gr.findById(id);
-		return (Guest) Converter.convertEntityToDTO(guestEntity);
+		Guest guest = null;
+
+		try {
+			guest = (Guest) Converter.convertEntityToDTO(gr.findById(id));
+		} catch (ParseException e) {
+			throw new ParserEntityException(e.getMessage(), e.getErrorOffset());
+		}
+		
+
+		if (isNull(guest)) {
+			throw new GuestNotFoundException("Guest could not be found: " + id);
+		}
+		
+		return guest;
 	}
 	
 	
@@ -65,7 +94,14 @@ public class DefaultClientService implements ClientService {
 	@Override
 	public User seekUser(String login) {
 		
-		User user = (User) Converter.convertEntityToDTO(ur.findByUserName(login));
+		User user;
+		
+		try {
+			user = (User) Converter.convertEntityToDTO(ur.findByUserName(login));
+		} catch (ParseException e) {
+			throw new ParserEntityException(e.getMessage(), e.getErrorOffset());
+		}
+		
 		return user;
 	}
 
@@ -86,23 +122,33 @@ public class DefaultClientService implements ClientService {
 		iterableList.forEach(guestList::add);
 		
 		return guestList.stream()
-				 .map(g -> (Guest) Converter.convertEntityToDTO(g))
+				 .map(g -> (Guest) convertEntityToDTO(g))
 				 .collect(Collectors.toList());
 	}
 
 	@Override
-	public void saveGuest(long eventCode, Guest guest) throws ParseException {
+	public void saveGuest(long eventCode, Guest guest) {
 		
 		com.eventoWS.persistence.entity.EventEntity event = er.findByCode(eventCode);
-		com.eventoWS.persistence.entity.GuestEntity guestEntity = ((com.eventoWS.persistence.entity.GuestEntity) Converter.convertDTOToEntity(guest));
+		com.eventoWS.persistence.entity.GuestEntity guestEntity;
+		try {
+			guestEntity = ((com.eventoWS.persistence.entity.GuestEntity) Converter.convertDTOToEntity(guest));
+		} catch (ParseException e) {
+			throw new ParserEntityException(e.getMessage(), e.getErrorOffset());
+		}
 		guestEntity.setEvent(event);
 		gr.save(guestEntity);
 	}
 
 	@Override
-	public void saveEvent(Event evento) throws ParseException {
+	public void saveEvent(Event evento) {
 		
-		com.eventoWS.persistence.entity.EventEntity event = (com.eventoWS.persistence.entity.EventEntity) Converter.convertDTOToEntity(evento);
+		com.eventoWS.persistence.entity.EventEntity event;
+		try {
+			event = (com.eventoWS.persistence.entity.EventEntity) Converter.convertDTOToEntity(evento);
+		} catch (ParseException e) {
+			throw new ParserEntityException(e.getMessage(), e.getErrorOffset());
+		}
 		er.save(event);
 	}
 
@@ -117,9 +163,22 @@ public class DefaultClientService implements ClientService {
 		
 		com.eventoWS.persistence.entity.GuestEntity guest = gr.findById(id);
 		gr.delete(guest);
-		
-		com.eventoWS.persistence.entity.EventEntity event = guest.getEvent();
-		return (Event) Converter.convertEntityToDTO(event);
-	}
 
+		try {
+			return (Event) Converter.convertEntityToDTO(guest.getEvent());
+		} catch (ParseException e) {
+			throw new ParserEntityException(e.getMessage(), e.getErrorOffset());
+		}
+	}
+	
+	
+	
+	private <T> Object convertEntityToDTO(T t) {
+
+		try {
+			return Converter.convertEntityToDTO(t);
+		} catch (ParseException e) {
+			throw new ParserEntityException(e.getMessage(), e.getErrorOffset());
+		}
+	}
 }

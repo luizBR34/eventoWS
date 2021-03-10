@@ -1,6 +1,5 @@
 package com.eventoWS.web;
 
-import java.text.ParseException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -77,12 +76,7 @@ public class EventoWSController {
 	@PostMapping("/saveGuest/{eventCode}")
 	public void saveGuest(@PathVariable("eventCode") long eventCode, @RequestBody @Valid Guest guest) {
 		
-		try {
-			service.saveGuest(eventCode, guest);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		service.saveGuest(eventCode, guest);
 	}
 	
 	
@@ -91,13 +85,8 @@ public class EventoWSController {
 	@ApiOperation(value="Sign up an event.")
 	@PostMapping("/saveEvent")
 	public void saveEvent(@RequestBody @Valid Event event) {
-		
-		try {
-			service.saveEvent(event);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		service.saveEvent(event);
 	}
 	
 	

@@ -14,15 +14,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Builder
 @Entity
 @Table(name = "event")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class EventEntity {
@@ -32,23 +35,15 @@ public class EventEntity {
 	@Column(name = "code")
 	private long code;
 	
-	@NotBlank
 	@Column(name = "name")
 	private String name;
 	
-	@NotBlank
 	@Column(name = "city")
 	private String city;
 	
-	@NotBlank
 	@Column(name = "date")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
-	
-	@NotBlank
-	@Column(name = "time")
-	@Temporal(TemporalType.TIME)
-	private Date time;
 	
 	//Um evento para muitos convidados
 	@OneToMany(fetch=FetchType.LAZY,

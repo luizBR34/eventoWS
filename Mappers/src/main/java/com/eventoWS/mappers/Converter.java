@@ -15,7 +15,7 @@ import com.eventoWS.persistence.entity.UserEntity;
 
 public class Converter {
 
-	public static <T> Object convertEntityToDTO(T t) {
+	public static <T> Object convertEntityToDTO(T t) throws ParseException {
 
 		if (t instanceof EventEntity) {
 
@@ -23,8 +23,8 @@ public class Converter {
 					.code(((EventEntity) t).getCode())
 					.name(((EventEntity) t).getName())
 					.city(((EventEntity) t).getCity())
-					.date(DateUtils.formatDate(((EventEntity) t).getDate()))
-					.time(DateUtils.formatDate(((EventEntity) t).getTime())).build();
+					.date(DateUtils.getDate(DateUtils.formatDate(((EventEntity) t).getDate())))
+					.time(DateUtils.getHour(DateUtils.formatDate(((EventEntity) t).getDate()))).build();
 
 		} else if (t instanceof GuestEntity) {
 
@@ -50,7 +50,15 @@ public class Converter {
 					.email(((UserEntity) t).getEmail())
 					.roles(((UserEntity) t).getRoles()
 							.stream()
-							.map(r -> (Role) convertEntityToDTO(r))
+							.map(r -> {
+								try {
+									return (Role) convertEntityToDTO(r);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								return null;
+							})
 							.collect(Collectors.toList()))
 					.build();
 
@@ -67,8 +75,7 @@ public class Converter {
 					.code(((Event) t).getCode())
 					.name(((Event) t).getName())
 					.city(((Event) t).getCity())
-					.date(DateUtils.parseDate(((Event) t).getDate()))
-					.time(DateUtils.parseDate(((Event) t).getTime())).build();
+					.date(DateUtils.parseDate(((Event) t).getDate() + " " + ((Event) t).getTime())).build();
 
 		} else if (t instanceof Guest) {
 
@@ -81,5 +88,4 @@ public class Converter {
 
 		return null;
 	}
-
 }
