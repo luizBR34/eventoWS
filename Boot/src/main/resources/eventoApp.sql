@@ -32,8 +32,7 @@ CREATE TABLE `event` (
   `code` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(80) NOT NULL,
   `city` char(50) NOT NULL,
-  `date` date NOT NULL,
-  `time` timestamp NOT NULL,
+  `date` datetime NOT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -69,7 +68,11 @@ CREATE TABLE `user` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  `role_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_USER_idx` (`role_id`),
+  CONSTRAINT `FK_USER` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) 
+  ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 
@@ -85,9 +88,11 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (username, password, first_name, last_name, email)
 VALUES 
-('john','{bcrypt}$2a$10$l12MPIkm1ifFCcUnEY8rhezQNt1oFaR2qHjWGuit5yBK9T54XeyPG','John','Doe','john@luv2code.com'),
-('mary','{bcrypt}$2a$10$l12MPIkm1ifFCcUnEY8rhezQNt1oFaR2qHjWGuit5yBK9T54XeyPG.5PM0K','Mary','Public','mary@gmail.com'),
-('susana','{bcrypt}$2a$10$l12MPIkm1ifFCcUnEY8rhezQNt1oFaR2qHjWGuit5yBK9T54XeyPG','Susana','Silva','susana@yahoo.com.br');
+('john','$2a$10$5FSFFaXRKdbDEvs1aS.z5.kb.xQqbcuK3r1IqzfghpXQebTn2TdQO','John','Doe','john@luv2code.com'),
+('mary','$2a$10$5FSFFaXRKdbDEvs1aS.z5.kb.xQqbcuK3r1IqzfghpXQebTn2TdQO','Mary','Public','mary@gmail.com'),
+('susana','$2a$10$5FSFFaXRKdbDEvs1aS.z5.kb.xQqbcuK3r1IqzfghpXQebTn2TdQO','Susana','Silva','susana@yahoo.com.br');
+
+
 
 --
 -- Table structure for table `users_roles` -------------------------------------------
