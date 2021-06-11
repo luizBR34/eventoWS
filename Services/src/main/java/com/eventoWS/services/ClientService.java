@@ -8,7 +8,7 @@ import com.eventoApp.models.User;
 
 public interface ClientService {
 	
-	public List<Event> eventList();
+	public List<Event> eventList(String username);
 	
 	public Event seekEvent(long code);
 	

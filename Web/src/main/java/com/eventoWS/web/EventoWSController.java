@@ -32,11 +32,11 @@ public class EventoWSController {
 	
 	//Define método Get de request e Json de resposta
 	//@ResponseBody indica que a resposta virá no corpo.
-	@ApiOperation(value="Returns the list of all events scheduled.")
-	@GetMapping(produces="application/json")
-	public @ResponseBody List<Event> eventList() {
+	@ApiOperation(value="Returns the list of all events scheduled for a specific user.")
+	@GetMapping(value="/eventList/{username}", produces="application/json")
+	public @ResponseBody List<Event> eventList(@PathVariable("username") String username) {
 		
-		return service.eventList();
+		return service.eventList(username);
 	}
 	
 	

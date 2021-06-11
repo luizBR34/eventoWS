@@ -4,7 +4,10 @@ import static java.util.Objects.isNull;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import com.eventoApp.models.Event;
 import com.eventoApp.models.Guest;
 import com.eventoApp.models.User;
 import com.eventoWS.mappers.Converter;
+import com.eventoWS.persistence.entity.EventEntity;
+import com.eventoWS.persistence.entity.UserEntity;
 import com.eventoWS.persistence.repository.EventRepository;
 import com.eventoWS.persistence.repository.GuestRepository;
 import com.eventoWS.persistence.repository.UserRepository;
@@ -37,16 +42,17 @@ public class DefaultClientService implements ClientService {
 	
 
 	@Override
-	public List<Event> eventList() {
+	public List<Event> eventList(String username) {
 		
-		Iterable<com.eventoWS.persistence.entity.EventEntity> events = er.findAll();
+		List<com.eventoWS.persistence.entity.EventEntity> eventList = Objects.nonNull(ur.findByUserName(username)) ? 
+																		   ur.findByUserName(username).getEvents() : 
+																		   new ArrayList<com.eventoWS.persistence.entity.EventEntity>();
 
-		List<com.eventoWS.persistence.entity.EventEntity> eventList = new ArrayList<>();
-		events.forEach(eventList::add);
-
-		return eventList.stream()
-					    .map(e -> (Event) convertEntityToDTO(e))
-					    .collect(Collectors.toList());
+		return (eventList.stream().findAny().isPresent()) ? 
+				eventList.stream()
+					     .map(e -> (Event) convertEntityToDTO(e))
+					     .collect(Collectors.toList()) :
+				new ArrayList<Event>();
 	}
 	
 
