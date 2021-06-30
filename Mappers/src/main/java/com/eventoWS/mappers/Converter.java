@@ -1,6 +1,7 @@
 package com.eventoWS.mappers;
 
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import com.eventoApp.mappers.utils.DateUtils;
@@ -24,7 +25,8 @@ public class Converter {
 					.name(((EventEntity) t).getName())
 					.city(((EventEntity) t).getCity())
 					.date(DateUtils.getDate(DateUtils.formatDate(((EventEntity) t).getDate())))
-					.time(DateUtils.getHour(DateUtils.formatDate(((EventEntity) t).getDate()))).build();
+					.time(DateUtils.getHour(DateUtils.formatDate(((EventEntity) t).getDate())))
+					.user((User) convertEntityToDTO(((EventEntity) t).getUser())).build();
 
 		} else if (t instanceof GuestEntity) {
 
@@ -75,7 +77,8 @@ public class Converter {
 					.code(((Event) t).getCode())
 					.name(((Event) t).getName())
 					.city(((Event) t).getCity())
-					.date(DateUtils.parseDate(((Event) t).getDate() + " " + ((Event) t).getTime())).build();
+					.date(DateUtils.parseDate(((Event) t).getDate() + " " + ((Event) t).getTime()))
+					.user((((Event) t).getUser() != null) ? (UserEntity) convertDTOToEntity(((Event) t).getUser()) : null).build();
 
 		} else if (t instanceof Guest) {
 
@@ -84,8 +87,35 @@ public class Converter {
 					.guestName(((Guest) t).getGuestName())
 					.event((EventEntity) convertDTOToEntity(((Guest) t).getEvent())).build();
 
-		} else { }
+		} else if (t instanceof User) {
 
-		return null;
+			return UserEntity.builder()
+					.id(((User) t).getId())
+					.firstName(((User) t).getFirstName())
+					.lastName(((User) t).getLastName())
+					.userName(((User) t).getUserName())
+					.password(((User) t).getPassword())
+					.email(((User) t).getEmail())
+					.roles(!((User) t).getRoles().isEmpty() 
+							? ((User) t).getRoles()
+										.stream()
+										.map(r -> {
+											try {
+												return (RoleEntity) convertDTOToEntity(r);
+											} catch (ParseException e) {
+												e.printStackTrace();
+											}
+											return null;
+										}).collect(Collectors.toList()) 
+							: Collections.emptyList()).build();
+
+		} else { 
+			
+			return RoleEntity.builder()
+					.id(((Role) t).getId())
+					.name(((Role) t).getName())
+					.build();
+		}
+
 	}
 }

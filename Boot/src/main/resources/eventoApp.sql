@@ -33,7 +33,14 @@ CREATE TABLE `event` (
   `name` varchar(80) NOT NULL,
   `city` char(50) NOT NULL,
   `date` datetime NOT NULL,
-  PRIMARY KEY (`code`)
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`code`),
+  KEY `FK_USERS_idx` (`user_id`),
+  
+  CONSTRAINT `FK_USERS` FOREIGN KEY (`user_id`) 
+  REFERENCES `user` (`id`) 
+  ON DELETE NO ACTION ON UPDATE NO ACTION
+  
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 
@@ -69,9 +76,12 @@ CREATE TABLE `user` (
   `last_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `role_id` int(11) DEFAULT NULL,
+  
   PRIMARY KEY (`id`),
   KEY `FK_USER_idx` (`role_id`),
-  CONSTRAINT `FK_USER` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) 
+  
+  CONSTRAINT `FK_USER` FOREIGN KEY (`role_id`) 
+  REFERENCES `role` (`id`)
   ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 

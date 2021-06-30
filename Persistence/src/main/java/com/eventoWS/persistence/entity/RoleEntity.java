@@ -14,11 +14,17 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Entity
 @Table(name = "role")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class RoleEntity {
@@ -41,5 +47,4 @@ public class RoleEntity {
 			inverseJoinColumns=@JoinColumn(name="user_id"))
 	private List<UserEntity> users;
 	
-
 }

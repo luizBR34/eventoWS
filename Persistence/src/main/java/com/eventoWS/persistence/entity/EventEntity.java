@@ -54,7 +54,7 @@ public class EventEntity {
 	private List<GuestEntity> guests;
 
 	//Muitos Eventos para um user
-	@ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@ManyToOne(cascade= {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="user_id")
 	private UserEntity user;
 }
