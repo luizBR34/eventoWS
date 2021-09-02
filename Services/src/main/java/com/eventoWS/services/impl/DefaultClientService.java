@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,22 @@ public class DefaultClientService implements ClientService {
 
 		if (isNull(event)) {
 			throw new EventNotFoundException("Event could not be found: " + code);
+		}
+
+		return event;
+	}
+
+	@Override
+	public Event seekLastEventSaved() {
+		Event event = null;
+		Optional<EventEntity> lastEventSaved = er.findTopByOrderByCodeDesc();
+
+		try {
+			if (lastEventSaved.isPresent()) {
+				event = (Event) Converter.convertEntityToDTO(lastEventSaved.get());
+			}
+		} catch (ParseException e) {
+			throw new ParserEntityException(e.getMessage(), e.getErrorOffset());
 		}
 
 		return event;
