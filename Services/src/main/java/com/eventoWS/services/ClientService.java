@@ -11,6 +11,8 @@ public interface ClientService {
 	public List<Event> eventList(String username);
 	
 	public Event seekEvent(long code);
+
+	public Event seekLastEventSaved();
 	
 	public Guest seekGuest(long id);
 

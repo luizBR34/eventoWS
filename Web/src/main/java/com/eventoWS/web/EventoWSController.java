@@ -46,6 +46,14 @@ public class EventoWSController {
 		
 		return service.seekEvent(code);
 	}
+
+
+	@ApiOperation(value="Get the last event saved into database.")
+	@GetMapping(value="/seekLastEventSaved", produces="application/json")
+	public @ResponseBody Event seekLastEventSaved() {
+
+		return service.seekLastEventSaved();
+	}
 	
 	
 	@ApiOperation(value="Get a guest by its code.")
