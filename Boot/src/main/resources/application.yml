@@ -4,10 +4,13 @@ spring:
     autoconfigure:
         exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
     datasource:
-        url: jdbc:mysql://localhost:3306/eventoApp?useTimezone=true&serverTimezone=UTC
+        #url: jdbc:mysql://localhost:3306/eventoApp?useTimezone=true&serverTimezone=UTC
+        url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/eventoApp?useTimezone=true&serverTimezone=UTC
         driver-class-name: com.mysql.cj.jdbc.Driver
-        username: root
-        password: hadouken83
+        #username: root
+        username: ${DATABASE_USERNAME}
+        #password: hadouken83
+        password: ${DATABASE_PASSWORD}
         validationQuery: SELECT 1
         testWhileIdle: true
     jpa:

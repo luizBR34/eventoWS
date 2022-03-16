@@ -14,7 +14,7 @@
 	</parent>
 	
 	<properties>
-		<spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+		<mysql.connector.version>5.1.47</mysql.connector.version>
 	</properties>
 
 	<dependencies>
@@ -50,7 +50,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-			<!-- <version>${mysql.connector.version}</version> -->
+			 <version>${mysql.connector.version}</version>
 		</dependency>
 		
 		<dependency>
@@ -83,17 +83,5 @@
 		</dependency>
 		
 	</dependencies>
-	
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	
+
 </project>
